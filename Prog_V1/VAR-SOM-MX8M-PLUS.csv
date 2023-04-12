@@ -1,0 +1,300 @@
+﻿Pin,Assembly,Pin name,Notes,GPIO,Ball
+1,no EC,ENET_TX_CTL,"Referenced to pin 36 supply (1.8V/3.3V);
+On some SOM modules this pin is GND; If placed in such carrier with no ""EC"" configuration define PAD as input!",GPIO1_IO22,SOC.AF24
+1,EC,NC,"With ""EC"" configuration this pin in Not Connected",,NC_EC
+2,,GND,Digital Ground ,,GND
+3,no EC,ENET_TD3,Referenced to pin 36 supply (1.8V/3.3V),GPIO1_IO18,SOC.AD24
+3,EC,ETH0_MDI_A_P,Signal source is Ethernet PHY,,"AR8033.11/
+ADIN1300.12"
+4,no EC,ENET_RD0,Referenced to pin 36 supply (1.8V/3.3V),GPIO1_IO26,SOC.AG29
+4,EC,ETH0_MDI_C_P,Signal source is Ethernet PHY,,"AR8033.17/
+ADIN1300.16"
+5,no EC,ENET_TD2,Referenced to pin 36 supply (1.8V/3.3V),GPIO1_IO19,SOC.AF26
+5,EC,ETH0_MDI_A_M,Signal source is Ethernet PHY,,"AR8033.12/
+ADIN1300.13"
+6,no EC,ENET_RD1,Referenced to pin 36 supply (1.8V/3.3V),GPIO1_IO27,SOC.AG28
+6,EC,ETH0_MDI_C_M,Signal source is Ethernet PHY,,"AR8033.18/
+ADIN1300.17"
+7,,GND,Digital Ground ,,GND
+8,,GND,Digital Ground ,,GND
+9,no EC,ENET_TD1,Referenced to pin 36 supply (1.8V/3.3V),GPIO1_IO20,SOC.AE26
+9,,ETH0_MDI_B_P,,,"AR8033.14/
+ADIN1300.14"
+10,no EC,ENET_RD2,Referenced to pin 36 supply (1.8V/3.3V),GPIO1_IO28,SOC.AF29
+10,EC,ETH0_MDI_D_P,Signal source is Ethernet PHY,,"AR8033.20/
+ADIN1300.18"
+11,no EC,ENET_TD0,Referenced to pin 36 supply (1.8V/3.3V),GPIO1_IO21,SOC.AC25
+11,EC,ETH0_MDI_B_M,Signal source is Ethernet PHY,,"AR8033.15/
+ADIN1300.15"
+12,no EC,ENET_RD3,Referenced to pin 36 supply (1.8V/3.3V),GPIO1_IO29,SOC.AF28
+12,EC,ETH0_MDI_D_M,Signal source is Ethernet PHY,,"AR8033.21/
+ADIN1300.19"
+13,,GND,Digital Ground ,,GND
+14,,GND,Digital Ground ,,GND
+15,no EC,ENET_RX_CTL,Referenced to pin 36 supply (1.8V/3.3V),GPIO1_IO24,SOC.AE28
+15,EC,ETH0_LED_ACT,Signal source is Ethernet PHY,,"AR8033.23/
+ADIN1300.21"
+16,no EC,ENET_RXC,"Referenced to pin 36 supply (1.8V/3.3V);
+Includes series EMI filter",GPIO1_IO25,SOC.AE29
+16,EC,ETH0_LED_LINK_10_100_1000,Signal source is Ethernet PHY,,"AR8033.24_26/
+ADIN1300.26 via inverting FET"
+17,,SPDIF_EXT_CLK,,GPIO5_IO05,SOC.AC18
+18,no AC,SAI3_TXD,"Available in SOM without ""AC” configuration",GPIO5_IO01,SOC.AH18
+18,AC,DMIC_CLK,Signal source is Audio Codec,,WM8904.1
+19,,GND,Digital Ground ,,GND
+20,no AC,SAI3_MCLK,"Available in SOM without ""AC” configuration",GPIO5_IO02,SOC.AJ20
+20,AC,DMIC_DATA,Signal source is Audio Codec,,WM8904.27
+21,,SAI2_RXD0,,GPIO4_IO23,SOC.AJ14
+22,,SAI2_RXC,,GPIO4_IO22,SOC.AJ16
+23,,SAI2_RXFS,,GPIO4_IO21,SOC.AH17
+24,,SAI2_TXFS,,GPIO4_IO24,SOC.AJ17
+25,,SAI2_TXC,,GPIO4_IO25,SOC.AH15
+26,,SAI2_TXD0,,GPIO4_IO26,SOC.AH16
+27,,GND,Digital Ground ,,GND
+28,,GND,Digital Ground ,,GND
+29,,GPIO1_IO15,,GPIO1_IO15,SOC.B5
+30,,ENET_MDIO,"Shared by SOM with ""EC"";
+Pin alternate function cannot be changed when using SOM with EC assembled",GPIO1_IO17,SOC.AH29
+31,no QSPI,NC,"Without ""QSPI"" configuration this pin is Not Connected",,NC_QSPI
+31, QSPI,NAND_DATA01,"Available in SOM with ""QSPI” configuration;
+Pin referenced to 1.8V",GPIO3_IO07,SOC.L25
+32,,VCC_SOM,SOM Power,,VCC_SOM
+33,no QSPI,NC,"Without ""QSPI"" configuration this pin is Not Connected",,NC_QSPI
+33, QSPI,NAND_DATA02,"Available in SOM with ""QSPI” configuration;
+Pin referenced to 1.8V",GPIO3_IO08,SOC.L24
+34,,VCC_SOM,SOM Power,,VCC_SOM
+35,no QSPI,NC,"Without ""QSPI"" configuration this pin is Not Connected",,NC_QSPI
+35, QSPI,NAND_DATA03,"Available in SOM with ""QSPI” configuration;
+Pin referenced to 1.8V",GPIO3_IO09,SOC.N24
+36,no EC,VDD_ENET0_1P8_3P3_IN,ENET_QOS pins group power IN,,VDD_ENET0_1P8_3P3_IN
+36,EC,NC,"With ""EC"" configuration this pin in Not Connected",,NC
+37,,GND,Digital Ground ,,GND
+38,,VDD_ENET1_1P8_3P3_IN,ENET1 pins group power IN,,VDD_ENET1_1P8_3P3_IN
+39,,ECSPI2_SS0,,GPIO5_IO13,SOC.AJ22
+40,no SAI1,GPIO1_IO00,,GPIO1_IO00,SOC.A7
+40,SAI1,SAI1_MCLK,Referenced to pin 38 supply (1.8V/3.3V),GPIO4_IO20,SOC.AE12
+41,,ECSPI2_MISO,,GPIO5_IO12,SOC.AH20
+42,,BOOT_SEL,"Controls internal OR external boot source;
+Internal signal pulled up to SOM_PER_3V3 using 10K resistor;",,INT. LOGIC
+43,,ECSPI2_SCLK,,GPIO5_IO10,SOC.AH21
+44,,UART3_RXD,,GPIO5_IO26,SOC.AE6
+45,,ECSPI2_MOSI,,GPIO5_IO11,SOC.AJ21
+46,,UART3_TXD,,GPIO5_IO27,SOC.AJ4
+47,,GND,Digital Ground ,,GND
+48,,SAI2_MCLK,,GPIO4_IO27,SOC.AJ15
+49,,SOM_3V3_PER,"SOM Peripherals’ 3.3v rail Output.
+Should be used to sequence carrier board peripherals’ 3.3v supply.
+Refer to Symphony-Board schematics for implementation.
+Max. 200mA current draw allowed.",,SOM_3V3_PER
+50,,ECSPI1_MISO,"Used internally with ""WBD"",
+Function can be released if BT Function disabled",GPIO5_IO08,SOC.AD20
+51,,ECSPI1_SS0,"Used internally with ""WBD"",
+Function can be released if BT Function disabled",GPIO5_IO09,SOC.AE20
+52,,ECSPI1_MOSI,"Used internally with ""WBD"",
+Function can be released if BT Function disabled",GPIO5_IO07,SOC.AC20
+53,,ECSPI1_SCLK,"Used internally with ""WBD"",
+Function can be released if BT Function disabled",GPIO5_IO06,SOC.AF20
+54,,SAI1_RXD7,Referenced to pin 38 supply (1.8V/3.3V),GPIO4_IO09,SOC.AH12
+55,,SAI1_TXD3,Referenced to pin 38 supply (1.8V/3.3V),GPIO4_IO15,SOC.AD12
+56,,SAI1_TXD2,Referenced to pin 38 supply (1.8V/3.3V),GPIO4_IO14,SOC.AH11
+57,,SAI1_TXC,"Referenced to pin 38 supply (1.8V/3.3V)
+Includes series EMI filter ",GPIO4_IO11,SOC.AJ12
+58,no EC,ENET_TXC,"Referenced to pin 36 supply (1.8V/3.3V);
+Includes series EMI filter;
+On some SOM modules this pin is GND; If placed in such carrier with no ""EC"" configuration define PAD as input!",GPIO1_IO23,SOC.AE24
+58,EC,NC,"With ""EC"" configuration this pin in Not Connected",,NC_EC
+59,,GND,Digital Ground ,,GND
+60,,SD2_CLK,Bank voltage set on SOM 1.8V/3.3V,GPIO2_IO13,SOC.AB29
+61,,SD2_DATA2,Bank voltage set on SOM 1.8V/3.3V,GPIO2_IO17,SOC.AA26
+62,,SD2_DATA0,Bank voltage set on SOM 1.8V/3.3V,GPIO2_IO15,SOC.AC28
+63,,SD2_DATA1,Bank voltage set on SOM 1.8V/3.3V,GPIO2_IO16,SOC.AC29
+64,,SD2_CMD,Bank voltage set on SOM 1.8V/3.3V,GPIO2_IO14,SOC.AB28
+65,,SD2_DATA3,Bank voltage set on SOM 1.8V/3.3V,GPIO2_IO18,SOC.AA25
+66,,GND,Digital Ground ,,GND
+67,,GND,Digital Ground ,,GND
+68,,SPDIF_TX,,GPIO5_IO03,SOC.AE18
+69,,GPIO1_IO11,,GPIO1_IO11,SOC.D8
+70,no SAI1,GPIO1_IO13,,GPIO1_IO13,SOC.A6
+70,SAI1,SAI1_RXD0,Referenced to pin 38 supply (1.8V/3.3V),GPIO4_IO02,SOC.AC10
+71,,SAI1_RXD6,Referenced to pin 38 supply (1.8V/3.3V),GPIO4_IO08,SOC.AH10
+72,no SAI1,GPIO1_IO05,,GPIO1_IO05,SOC.B4
+72,SAI1,SAI1_RXD2,Referenced to pin 38 supply (1.8V/3.3V),GPIO4_IO04,SOC.AH9
+73,,SAI1_TXD0,Referenced to pin 38 supply (1.8V/3.3V),GPIO4_IO12,SOC.AJ11
+74,,ENET_MDC,"Shared by SOM with ""EC"";
+Pin alternate function cannot be changed when using SOM with EC assembled",GPIO1_IO16,SOC.AH28
+75,no SAI1,GPIO1_IO01,,GPIO1_IO01,SOC.E8
+75,SAI1,SAI1_RXD3,Referenced to pin 38 supply (1.8V/3.3V),GPIO4_IO05,SOC.AJ8
+76,,GND,Digital Ground ,,GND
+77,no SAI1,GPIO1_IO08,,GPIO1_IO08,SOC.A8
+77,SAI1,SAI1_TXD6,Referenced to pin 38 supply (1.8V/3.3V),GPIO4_IO18,SOC.AC12
+78,,GND,Digital Ground ,,GND
+79,,NAND_DQS,"Pin is routed by default via on SOM
+1.8<->3.3V open drain voltage translator with 10K Pull up.
+In ""QSPI"" configuration Pin is routed directly from CPU @1.8v",GPIO3_IO14,SOC.R26
+80,,GPIO1_IO14,,GPIO1_IO14,SOC.A4
+81,,SAI1_RXD5,Referenced to pin 38 supply (1.8V/3.3V),GPIO4_IO07,SOC.AE10
+82,no SAI1,GPIO1_IO07,,GPIO1_IO07,SOC.F6
+82,SAI1,SAI1_RXFS,Referenced to pin 38 supply (1.8V/3.3V),GPIO4_IO00,SOC.AJ9
+83,,UART2_RXD,Used as debug UART on Variscite base board,GPIO5_IO24,SOC.AF6
+84,,NAND_DATA00,"Pin is routed by default via on SOM
+1.8<->3.3V open drain voltage translator with 10K Pull up.
+In ""QSPI"" configuration Pin is routed directly from CPU @1.8v",GPIO3_IO06,SOC.R25
+85,,UART2_TXD,Used as debug UART on Variscite base board,GPIO5_IO25,SOC.AH4
+86,no SAI1,GPIO1_IO06,,GPIO1_IO06,SOC.A3
+86,SAI1,SAI1_RXC,Referenced to pin 38 supply (1.8V/3.3V),GPIO4_IO01,SOC.AH8
+87,,I2C3_SDA,,GPIO5_IO19,SOC.AJ6
+88,,I2C3_SCL,,GPIO5_IO18,SOC.AJ7
+89,,GND,Digital Ground ,,GND
+90,,I2C4_SDA,,GPIO5_IO21,SOC.AD8
+91,,USB1_RX_N,,,SOC.B9
+92,,I2C4_SCL,,GPIO5_IO20,SOC.AF8
+93,,USB1_RX_P,,,SOC.A9
+94,,USB1_ID,"USB PHY ID pin, No GPIO function
+Pin referenced to 1.8V",,SOC.B11
+95,,GND,Digital Ground ,,GND
+96,,SAI1_TXD5,"Referenced to pin 38 supply (1.8V/3.3V)
+Includes series EMI filter ",GPIO4_IO17,SOC.AH14
+97,,USB1_TX_P,,,SOC.A10
+98,,SYS_nRST_3V3,"SOM reset input pin. Internally pulled up.
+Once it is asserted low, SOM performs reset.
+By default, cold reset is performed power cycling the PMIC rails. Can be programmed to perform warm reset instead.",,PMIC.8
+99,,USB1_TX_N,,,SOC.B10
+100,,PCIE1_REF_CLK_N,Differential Pair Negative side,,SOC.E16
+101,,GND,Digital Ground ,,GND
+102,,PCIE1_REF_CLK_P,Differential Pair Positive side,,SOC.D16
+103,,VCC_SOM,SOM Power,,VCC_SOM
+104,,USB2_VBUS,USB PHY power pin; 5V tolerant,,SOC.D12
+105,,VCC_SOM,SOM Power,,VCC_SOM
+106,,USB1_VBUS,USB PHY power pin; 5V tolerant,,SOC.A11
+107,,VCC_SOM,SOM Power,,VCC_SOM
+108,,USB2_D_N,,,SOC.E14
+109,,VCC_SOM,SOM Power,,VCC_SOM
+110,,USB2_D_P,,,SOC.D14
+111,,VCC_SOM,SOM Power,,VCC_SOM
+112,,GND,Digital Ground ,,GND
+113,,SAI1_TXD4,Referenced to pin 38 supply (1.8V/3.3V),GPIO4_IO16,SOC.AH13
+114,,USB1_D_N,USB OTG capable,,SOC.E10
+115,,UART4_RXD,,GPIO5_IO28,SOC.AJ5
+116,,USB1_D_P,USB OTG capable,,SOC.D10
+117,no SAI1,GPIO1_IO03,,GPIO1_IO03,SOC.D6
+117,SAI1,SAI1_RXD1,Referenced to pin 38 supply (1.8V/3.3V),GPIO4_IO03,SOC.AF10
+118,,GND,Digital Ground ,,GND
+119,,MIPI_CSI1_D0_P,,,SOC.D18
+120,,SAI1_TXFS,Referenced to pin 38 supply (1.8V/3.3V),GPIO4_IO10,SOC.AF12
+121,,MIPI_CSI1_D0_N,,,SOC.E18
+122,,SAI1_RXD4,Referenced to pin 38 supply (1.8V/3.3V),GPIO4_IO06,SOC.AD10
+123,,MIPI_CSI1_D1_N,,,SOC.E20
+124,,UART1_TXD,,GPIO5_IO23,SOC.AJ3
+125,,MIPI_CSI1_D1_P,,,SOC.D20
+126,,GND,Digital Ground ,,GND
+127,,MIPI_CSI1_D2_P,,,SOC.D24
+128,,PCIE1_TX_N,,,SOC.B15
+129,,MIPI_CSI1_D2_N,,,SOC.E24
+130,,PCIE1_TX_P,,,SOC.A15
+131,,MIPI_CSI1_D3_N,,,SOC.E26
+132,,GND,Digital Ground ,,GND
+133,,MIPI_CSI1_D3_P,,,SOC.D26
+134,,PCIE1_RX_P,,,SOC.A14
+135,,MIPI_CSI1_CLK_P,,,SOC.D22
+136,,PCIE1_RX_N,,,SOC.B14
+137,,MIPI_CSI1_CLK_N,,,SOC.E22
+138,,GND,Digital Ground ,,GND
+139,,GND,Digital Ground ,,GND
+140,,USB2_RX_P,,,SOC.A12
+141,,USB2_TX_N,,,SOC.B13
+142,,USB2_RX_N,,,SOC.B12
+143,,USB2_TX_P,,,SOC.A13
+144,,GND,Digital Ground ,,GND
+145,no QSPI,EARC_N_HPD,"Available in SOM without ""QSPI” configuration;
+Pin referenced to 1.8v",,SOC.AH22
+145,QSPI,NAND_ALE,"Available in SOM without ""QSPI” configuration;
+Pin referenced to 1.8v",GPIO3_IO00,SOC.N25
+146,no CSI2,HDMI_TX1_P,"Available in SOM without ""QSPI” configuration;
+Pin referenced to 1.8v",,SOC.AH26
+146,CSI2,MIPI_CSI2_D1_P,"Available in SOM with ""CSI2” configuration",,SOC.A24
+147,no QSPI,EARC_P_UTIL,"Available in SOM without ""QSPI” configuration;
+Pin referenced to 1.8v",,SOC.AJ23
+147,QSPI,NAND_CE0_B,"Available in SOM without ""QSPI” configuration;
+Pin referenced to 1.8v",GPIO3_IO01,SOC.L26
+148,no CSI2,HDMI_TX1_N,"Available in SOM without ""CSI2” configuration",,SOC.AJ26
+148,CSI2,MIPI_CSI2_D1_N,"Available in SOM with ""CSI2” configuration",,SOC.B24
+149,,GND,Digital Ground ,,GND
+150,no CSI2,HDMI_TXC_N,"Available in SOM without ""CSI2” configuration",,SOC.AJ24
+150,CSI2,MIPI_CSI2_CLK_N,"Available in SOM with ""CSI2” configuration",,SOC.B23
+151,no CSI2,HDMI_TX2_P,"Available in SOM without ""CSI2” configuration",,SOC.AH27
+151,CSI2,MIPI_CSI2_D2_P,"Available in SOM with ""CSI2” configuration",,SOC.A22
+152,no CSI2,HDMI_TXC_P,"Available in SOM without ""CSI2” configuration",,SOC.AH24
+152,CSI2,MIPI_CSI2_CLK_P,"Available in SOM with ""CSI2” configuration",,SOC.A23
+153,no CSI2,HDMI_TX2_N,"Available in SOM without ""CSI2” configuration",,SOC.AJ27
+153,CSI2,MIPI_CSI2_D2_N,"Available in SOM with ""CSI2” configuration",,SOC.B22
+154,no CSI2,HDMI_HPD,"Available in SOM without ""CSI2” configuration",GPIO3_IO29,SOC.AE22
+154,CSI2,MIPI_CSI2_D3_P,"Available in SOM with ""CSI2” configuration",,SOC.A21
+155,no CSI2,HDMI_TX0_P,"Available in SOM without ""CSI2” configuration",,SOC.AH25
+155,CSI2,MIPI_CSI2_D0_P,"Available in SOM with ""CSI2” configuration",,SOC.A25
+156,no CSI2,HDMI_CEC,"Available in SOM without ""CSI2” configuration",GPIO3_IO28,SOC.AD22
+156,CSI2,MIPI_CSI2_D3_N,"Available in SOM with ""CSI2” configuration",,SOC.B21
+157,no CSI2,HDMI_TX0_N,"Available in SOM without ""CSI2” configuration",,SOC.AJ25
+157,CSI2,MIPI_CSI2_D0_N,"Available in SOM with ""CSI2” configuration",,SOC.B25
+158,,GND,Digital Ground ,,GND
+159,,GND,Digital Ground ,,GND
+160,no DSI,LVDS0_D1_N,"Available in SOM without ""DSI” configuration",,SOC.F28
+160,DSI,MIPI_DSI1_D1_N,"Available in SOM with ""DSI” configuration",,SOC.B17
+161,no DSI,LVDS0_D0_N,"Available in SOM without ""DSI” configuration",,SOC.E28
+161,DSI,MIPI_DSI1_D0_N,"Available in SOM with ""DSI” configuration",,SOC.B16
+162,no DSI,LVDS0_D1_P,"Available in SOM without ""DSI” configuration",,SOC.E29
+162,DSI,MIPI_DSI1_D1_P,"Available in SOM with ""DSI” configuration",,SOC.A17
+163,no DSI,LVDS0_D0_P,"Available in SOM without ""DSI” configuration",,SOC.D29
+163,DSI,MIPI_DSI1_D0_P,"Available in SOM with ""DSI” configuration",,SOC.A16
+164,no DSI,LVDS0_D2_N,"Available in SOM without ""DSI” configuration",,SOC.H28
+164,DSI,MIPI_DSI1_D2_N,"Available in SOM with ""DSI” configuration",,SOC.B19
+165,no DSI,LVDS0_D3_N,"Available in SOM without ""DSI” configuration",,SOC.J28
+165,DSI,MIPI_DSI1_D3_N,"Available in SOM with ""DSI” configuration",,SOC.B20
+166,no DSI,LVDS0_D2_P,"Available in SOM without ""DSI” configuration",,SOC.G29
+166,DSI,MIPI_DSI1_D2_P,"Available in SOM with ""DSI” configuration",,SOC.A19
+167,no DSI,LVDS0_D3_P,"Available in SOM without ""DSI” configuration",,SOC.H29
+167,DSI,MIPI_DSI1_D3_P,"Available in SOM with ""DSI” configuration",,SOC.A20
+168,no DSI,LVDS0_CLK_N,"Available in SOM without ""DSI” configuration",,SOC.G28
+168,DSI,MIPI_DSI1_CLK_N,"Available in SOM with ""DSI” configuration",,SOC.B18
+169,,GND,Digital Ground ,,GND
+170,no DSI,LVDS0_CLK_P,"Available in SOM without ""DSI” configuration",,SOC.F29
+170,DSI,MIPI_DSI1_CLK_P,"Available in SOM with ""DSI” configuration",,SOC.A18
+171,,UART4_TXD,,GPIO5_IO29,SOC.AH5
+172,,GND,Digital Ground ,,GND
+173,no SAI1,GPIO1_IO09,,GPIO1_IO09,SOC.B8
+173,SAI1,SAI1_TXD7,Referenced to pin 38 supply (1.8V/3.3V),GPIO4_IO19,SOC.AJ13
+174,,HDMI_DDC_SCL,Internal signal pulled up to SOM_PER_3V3 using 10K resistor;,GPIO3_IO26,SOC.AC22
+175,,UART1_RXD,,GPIO5_IO22,SOC.AD6
+176,,HDMI_DDC_SDA,Internal signal pulled up to SOM_PER_3V3 using 10K resistor;,GPIO3_IO27,SOC.AF22
+177,,SAI1_TXD1,Referenced to pin 38 supply (1.8V/3.3V),GPIO4_IO13,SOC.AJ10
+178,,GND,Digital Ground ,,GND
+179,,GND,Digital Ground ,,GND
+180,,LVDS1_CLK_N,,,SOC.B28
+181,,LVDS1_D3_P,,,SOC.C29
+182,,LVDS1_CLK_P,,,SOC.A28
+183,,LVDS1_D3_N,,,SOC.D28
+184,,LVDS1_D0_N,,,SOC.B26
+185,,GND,Digital Ground ,,GND
+186,,LVDS1_D0_P,,,SOC.A26
+187,no TP,I2C1_SDA,Available in SOM without TP,GPIO5_IO15,SOC.AH7
+187,TP,TS_X-,Signal source is Resistive Touch controller,,TSC2046.8
+188,,LVDS1_D1_N,,,SOC.B27
+189,no TP,I2C1_SCL,Available in SOM without TP,GPIO5_IO14,SOC.AC8
+189,TP,TS_X+,Signal source is Resistive Touch controller,,TSC2046.6
+190,,LVDS1_D1_P,,,SOC.A27
+191,no TP,I2C2_SDA,Available in SOM without TP,GPIO5_IO17,SOC.AE8
+191,TP,TS_Y+,Signal source is Resistive Touch controller,,TSC2046.7
+192,,LVDS1_D2_N,,,SOC.C28
+193,no TP,I2C2_SCL,Available in SOM without TP,GPIO5_IO16,SOC.AH6
+193,TP,TS_Y-,Signal source is Resistive Touch controller,,TSC2046.9
+194,,LVDS1_D2_P,,,SOC.B29
+195,,AGND,Audio Ground ,,AGND
+196,no AC,SAI3_RXFS,"Available in SOM without ""AC” configuration",GPIO4_IO28,SOC.AJ19
+196,AC,HPOUTFB,Signal source is Audio Codec,,WM8904.14
+197,no AC,SAI3_RXC,"Available in SOM without ""AC” configuration",GPIO4_IO29,SOC.AJ18
+197,AC,LINEIN1_LP,Signal source is Audio Codec,,WM8904.26
+198,no AC,SAI3_RXD,"Available in SOM without ""AC” configuration",GPIO4_IO30,SOC.AF18
+198,AC,HPLOUT,Signal source is Audio Codec,,WM8904.13
+199,no AC,SAI3_TXFS,"Available in SOM without ""AC” configuration",GPIO4_IO31,SOC.AC16
+199,AC,LINEIN1_RP,Signal source is Audio Codec,,WM8904.24
+200,no AC,SAI3_TXC,"Available in SOM without ""AC” configuration",GPIO5_IO00,SOC.AH19
+200,AC,HPROUT,Signal source is Audio Codec,,WM8904.15
