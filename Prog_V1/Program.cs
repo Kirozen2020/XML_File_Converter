@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.Remoting.Channels;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
@@ -19,40 +21,93 @@ namespace Prog_V1
     {
         static void Main(string[] args)
         {
+            Console.WriteLine("Example for full path: C:\\Users\\user\\Downloads\\Text.txt");
+            Console.Write("Enter full csv path: ");
+            string csvFullPath = Console.ReadLine(); /*"C:\\Users\\rozen\\OneDrive\\Рабочий стол\\Work\\VAR-SOM-MX8M-PLUS.csv";*/
+            csvFullPath = csvFullPath.Replace("\\", "/");
+
+            Console.Write("Enter full output path: ");
+            string outputName = Console.ReadLine(); /*"C:\\Users\\rozen\\Downloads\\out9.xml";*/
+            outputName = outputName.Replace("\\", "/");
+
+            Console.Write("Enter full xml path: ");
+            string xmlFullPath = Console.ReadLine(); /*"C:\\Users\\rozen\\Downloads\\iMX8M-PLUS.xml";*/
+            xmlFullPath = xmlFullPath.Replace("\\", "/");
+
             List<Pin> allPins = new List<Pin>();
 
-            //init the names of used pins in order
-            var csvFileDescription = new CsvFileDescription
-            {
-                FirstLineHasColumnNames = true,
-                IgnoreUnknownColumns = true,
-                SeparatorChar = ',',
-                UseFieldIndexForReadingData = false,
+            List<Info> infos = new List<Info>();
 
-            };
+            /*-------------------------------------------------------------------------------------------*/
+            InitInfo(infos, csvFullPath);
 
-            var csvContext = new CsvContext();
-            var names = csvContext.Read<Info>("VAR-SOM-MX8M-PLUS.csv", csvFileDescription);
+            allPins = InitPins(infos, xmlFullPath);
 
-            //foreach(var name in names)
-            //{
-            //    Console.WriteLine($"{name.Id} -> {name.Name}");
-            //}
-            //Console.ReadKey();
+            UpdateInfo(allPins, infos);
 
-            //init for all the pins 
-            allPins = InitPins(names);
-
-            UpdateInfo(allPins, names);
-
-            SortPinsById(allPins);
+            AddMisingPins(allPins, infos);
 
             AddPins(allPins);
 
-            //creating the output xml file
-            CreateOutPut(allPins);
+            SortPinsById(allPins);
+
+            CreateOutPut(allPins, outputName);
+            /*-------------------------------------------------------------------------------------------*/
 
         }
+
+        public static void AddMisingPins(List<Pin> allPins, IEnumerable<Info> infos)
+        {
+            Pin p;
+            foreach (var info in infos)
+            {
+                if (!IsInList(allPins, info))
+                {
+                    p = new Pin(info.Name, info.Name, info.Id, "none");
+                    allPins.Add(p);
+                }
+            }
+        }
+
+        public static bool IsInList(List<Pin> pins, Info infos)
+        {
+            foreach (var pin in pins)
+            {
+                if (pin.Coords.Equals(infos.Id))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private static void InitInfo(List<Info> infos, string csvPath)
+        {
+            using (var reader = new StreamReader(csvPath))
+            {
+                while (reader.EndOfStream == false)
+                {
+                    var content = reader.ReadLine().Split(',').ToList();
+                    if (content[0].All(char.IsDigit))
+                    {
+                        infos.Add(new Info(content[0], content[2], content[3], content[1]));
+                    }/*
+                    if (RowHasData(content))
+                    {
+                        
+                        if (content.Count > 4)
+                        {
+                            
+                        }
+                    }*/
+                }
+            }
+        }
+        /*
+        public static bool RowHasData(List<string> data)
+        {
+            return data.Any(x => x.Length > 0);
+        }*/
 
         private static void AddPins(List<Pin> allPins)
         {
@@ -127,7 +182,7 @@ namespace Prog_V1
             allPins.Reverse();
         }
 
-        private static void UpdateInfo(List<Pin> allPins, IEnumerable<Info> names)
+        private static void UpdateInfo(List<Pin> allPins, List<Info> names)
         {
             foreach (var pin in allPins)
             {
@@ -159,12 +214,11 @@ namespace Prog_V1
                     p.GetValue().Notes = item.Note;
                 }
 
-                //Console.WriteLine($"assay-> {p.GetValue().Assy} | notes-> {p.GetValue().Notes}");
                 p = p.GetNext();
             }
         }
 
-        private static void CreateOutPut(List<Pin> usedPins)
+        private static void CreateOutPut(List<Pin> usedPins, string path)
         {
             XElement xdoc = new XElement("som");
             for (int i = 0; i < usedPins.Count; i++)
@@ -226,63 +280,35 @@ namespace Prog_V1
 
                 xdoc.Add(pin);
             }
-            xdoc.Save("C:/Users/rozen/OneDrive/Рабочий стол/Work/xmlTest6.xml");
+            xdoc.Save(path);
 
         }
 
-        public static void InitNames()//get all names of pins that we need in the output
-        {
-            var csvFileDescription = new CsvFileDescription
-            {
-                FirstLineHasColumnNames = true,
-                IgnoreUnknownColumns = true,
-                SeparatorChar = ',',
-                UseFieldIndexForReadingData = false,
-
-            };
-
-            var csvContext = new CsvContext();
-            var countries = csvContext.Read<Info>("VAR-SOM-MX8M-PLUS.csv", csvFileDescription);
-
-            foreach (var country in countries)
-            {
-                Console.WriteLine($"{country.Id} -> {country.Name}");
-            }
-        }
-
-        public static List<Pin> InitPins(IEnumerable<Info> names)//Get all pins from the big xml file
+        public static List<Pin> InitPins(IEnumerable<Info> names, string path)//Get all pins from the big xml file
         {
             //list
             List<Pin> allpins = new List<Pin>();
 
-            //direction
-            //string file1 = @"C:\Users\rozen\OneDrive\Рабочий стол\Work\iMX8M-PLUS.xml";
-            string file1 = @"C:\Users\rozen\Downloads\iMX8M-PLUS.xml";
-
             //document 
-            XDocument xdoc = XDocument.Load(file1);
+            XDocument xdoc = XDocument.Load(path);
 
             XElement categories = xdoc.Descendants().Where(x => x.Name.LocalName == "pins").FirstOrDefault();
-
-            //var pins = from c in xdoc.Elements("pinsmodelsignal_configuration").Elements("pins").Elements("pin")
-            //           select c;
 
             var pins  = from c in categories.Elements("pin")
                         select c;
 
-            int i = 0;
             //get pins
             foreach (var pin in pins)
             {
                 string name = string.Empty, description = string.Empty, coords = string.Empty, power_group = string.Empty;
                 string name_part = string.Empty, package_function = string.Empty, signal = string.Empty, peripheral = string.Empty;
+                ALT a1;
 
                 name = pin.Attribute("name").Value.ToString();
 
                 if(IsInChip(name, names))
                 {
                     description = pin.Attribute("description").Value.ToString();
-                    //coords = pin.Attribute("coords").Value.ToString();//
                     power_group = pin.Attribute("power_group").Value.ToString();
 
 
@@ -298,8 +324,6 @@ namespace Prog_V1
                     {
                         name_part = connection.Attribute("name_part").Value.ToString();
                         package_function = connection.Attribute("package_function").Value.ToString();
-                        //string assy = connection.Attribute("assy").ToString();
-                        //string notes = connection.Attribute("notes").ToString();
 
 
                         var peripheral_signal_refs = from p1 in connection.Elements("connection").Elements("peripheral_signal_ref")
@@ -310,19 +334,16 @@ namespace Prog_V1
                             signal = peripheral_signal_ref.Attribute("signal").Value.ToString();
                             peripheral = peripheral_signal_ref.Attribute("peripheral").Value.ToString();
                         }
-                        ALT a1 = new ALT(name_part, package_function, signal, peripheral);
+                        a1 = new ALT(name_part, package_function, signal, peripheral);
                         p.AddALT(a1);
                     }
 
                     allpins.Add(p);
-
-                    i++;
                 }
             }
-
             return allpins;
         }
-
+        /*
         public static int IsInChip(Pin x, List<Info> names)
         {
             for (int i = 0; i < names.Count; i++)
@@ -334,6 +355,7 @@ namespace Prog_V1
             }
             return -1;
         }
+
         public static bool IsInChip(string name, List<Info> names)
         {
             for(int i = 0;i < names.Count;i++)
@@ -345,6 +367,7 @@ namespace Prog_V1
             }
             return false;
         }
+        */
         public static bool IsInChip(string name, IEnumerable<Info> names)
         {
             foreach(var n in names)
@@ -356,5 +379,6 @@ namespace Prog_V1
             }
             return false;
         }
+
     }
 }
