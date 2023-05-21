@@ -48,6 +48,9 @@ namespace Prog_V1
             //creating the output xml file
             CreateOutPut(allPins, outputName);
 
+            Console.WriteLine("File created successfully!");
+            Console.WriteLine("Enter any key for closing this window");
+            Console.ReadKey();
         }
 
         public static void InitNames(List<Info> infos, string fullPath)
