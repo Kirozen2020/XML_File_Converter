@@ -218,24 +218,8 @@ namespace Prog_V1
                 while (arr != null)
                 {
                     XElement alt;
-                    if (arr.GetValue().Package_function.Equals("NoALT"))
-                    {
-                        alt = new XElement("connection",
-                            new XAttribute("name_part", arr.GetValue().Name_part),
-                            new XAttribute("package_function", arr.GetValue().Package_function),
-                            new XAttribute("assy", arr.GetValue().Assy),
-                            new XAttribute("notes", arr.GetValue().Notes),
 
-                            new XElement("peripheral_signal_ref",
-                                new XAttribute("signal", arr.GetValue().Signal),
-                                new XAttribute("peripheral", arr.GetValue().Peripheral))
-                            );
-
-                        pin.Add(alt);
-                    }
-                    else if (!arr.GetValue().Package_function.Equals("NoALT"))
-                    {
-                        alt = new XElement("connection",
+                    alt = new XElement("connection",
                             new XAttribute("name_part", arr.GetValue().Name_part),
                             new XAttribute("package_function", arr.GetValue().Package_function),
                             new XAttribute("assy", arr.GetValue().Assy),
@@ -256,8 +240,48 @@ namespace Prog_V1
                                 new XAttribute("value", arr.GetValue().Value2))
                             );
 
-                        pin.Add(alt);
-                    }
+                    pin.Add(alt);
+
+                    //if (arr.GetValue().Package_function.Equals("NoALT"))
+                    //{
+                    //    alt = new XElement("connection",
+                    //        new XAttribute("name_part", arr.GetValue().Name_part),
+                    //        new XAttribute("package_function", arr.GetValue().Package_function),
+                    //        new XAttribute("assy", arr.GetValue().Assy),
+                    //        new XAttribute("notes", arr.GetValue().Notes),
+
+                    //        new XElement("peripheral_signal_ref",
+                    //            new XAttribute("signal", arr.GetValue().Signal),
+                    //            new XAttribute("peripheral", arr.GetValue().Peripheral))
+                    //        );
+
+                    //    pin.Add(alt);
+                    //}
+                    //else if (!arr.GetValue().Package_function.Equals("NoALT"))
+                    //{
+                    //    alt = new XElement("connection",
+                    //        new XAttribute("name_part", arr.GetValue().Name_part),
+                    //        new XAttribute("package_function", arr.GetValue().Package_function),
+                    //        new XAttribute("assy", arr.GetValue().Assy),
+                    //        new XAttribute("notes", arr.GetValue().Notes),
+
+                    //        new XElement("peripheral_signal_ref",
+                    //            new XAttribute("signal", arr.GetValue().Signal),
+                    //            new XAttribute("peripheral", arr.GetValue().Peripheral)),
+
+                    //        new XElement("peripheral_dts_ref",
+                    //            new XAttribute("group_name_postfix", arr.GetValue().Group_name_postfix1),
+                    //            new XAttribute("padname", arr.GetValue().Padname1),
+                    //            new XAttribute("value", arr.GetValue().Value1)),
+
+                    //        new XElement("peripheral_dts_ref",
+                    //            new XAttribute("group_name_postfix", "-sleep"/*arr.GetValue().Group_name_postfix2*/),
+                    //            new XAttribute("padname", arr.GetValue().Padname2),
+                    //            new XAttribute("value", arr.GetValue().Value2))
+                    //        );
+
+                    //    pin.Add(alt);
+                    //}
 
                     arr = arr.GetNext();
                 }
