@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Xml.Linq;
@@ -14,19 +15,23 @@ namespace Prog_V1
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Example for full path: C:\\Users\\user\\Downloads\\Text.txt");
-            Console.Write("Enter full csv path: ");
-            string csvFullPath = Console.ReadLine(); /*"C:\\Users\\rozen\\OneDrive\\Рабочий стол\\Work\\VAR-SOM-MX8M-PLUS.csv";*/
+            //Console.WriteLine("Example for full path: C:\\Users\\user\\Downloads\\Text.txt");
+            //Console.Write("Enter full csv path: ");
+            string csvFullPath = "C:\\Users\\Lucky\\Downloads\\VAR-SOM-MX8M-PLUS.csv";
+                //Console.ReadLine(); /*"C:\\Users\\rozen\\OneDrive\\Рабочий стол\\Work\\VAR-SOM-MX8M-PLUS.csv";*/
             csvFullPath = csvFullPath.Replace("\\", "/");
 
-            Console.Write("Enter full output path: ");
-            string outputName = Console.ReadLine(); /*"C:\\Users\\rozen\\Downloads\\out.xml";*/
+            //Console.Write("Enter full output path: ");
+            string outputName = "C:\\Users\\Lucky\\Downloads\\out.xml";
+                //Console.ReadLine(); /*"C:\\Users\\rozen\\Downloads\\out.xml";*/
             outputName = outputName.Replace("\\", "/");
 
-            Console.Write("Enter full xml path: ");
-            string xmlFullPath = Console.ReadLine(); /*"C:\\Users\\rozen\\Downloads\\iMX8M-PLUS.xml";*/
+            //Console.Write("Enter full xml path: ");
+            string xmlFullPath = "C:\\Users\\Lucky\\Downloads\\iMX8M-PLUS.xml";
+                //Console.ReadLine(); /*"C:\\Users\\rozen\\Downloads\\iMX8M-PLUS.xml";*/
             xmlFullPath = xmlFullPath.Replace("\\", "/");
 
+            Console.WriteLine(csvFullPath+"\n\n"+outputName+"\n\n"+xmlFullPath);
             List<Pin> allPins = new List<Pin>();
 
             List<Info> names = new List<Info>();
@@ -101,11 +106,34 @@ namespace Prog_V1
                     Pin noAssy = GetPin(allPins, allPins[i].Coords, 0);
                     Pin yesAssy = GetPin(allPins, allPins[i].Coords, 1);
 
-                    ALT assy = new ALT(yesAssy.Arr.GetValue().Name_part, "NoALT", yesAssy.Arr.GetValue().Signal, yesAssy.Arr.GetValue().Peripheral);
-                    assy.Assy = yesAssy.Arr.GetValue().Assy;
-                    assy.Notes = yesAssy.Arr.GetValue().Notes;
-                    noAssy.AddALT(assy);
-                    allPins.Remove(yesAssy);
+                    if (yesAssy.CountAlts() > 0)
+                    {
+                        Node<ALT> p = yesAssy.Arr;
+                        while (p != null)
+                        {
+                            ALT x = new ALT(p.GetValue().Name_part, p.GetValue().Package_function, p.GetValue().Signal, p.GetValue().Peripheral);
+                            x.Assy = p.GetValue().Assy;
+                            x.Notes = p.GetValue().Notes;
+                            noAssy.AddALT(x);
+                            p = p.GetNext();
+                        }
+                        allPins.Remove(yesAssy);
+                    }
+                    //Not writing NoALT 
+                    else
+                    {
+                        ALT assy = new ALT(yesAssy.Arr.GetValue().Name_part, "NoALT", yesAssy.Arr.GetValue().Signal, yesAssy.Arr.GetValue().Peripheral);
+                        assy.Assy = yesAssy.Arr.GetValue().Assy;
+                        assy.Notes = yesAssy.Arr.GetValue().Notes;
+                        noAssy.AddALT(assy);
+                        allPins.Remove(yesAssy);
+                    }
+
+                    //ALT assy = new ALT(yesAssy.Arr.GetValue().Name_part, "NoALT", yesAssy.Arr.GetValue().Signal, yesAssy.Arr.GetValue().Peripheral);
+                    //assy.Assy = yesAssy.Arr.GetValue().Assy;
+                    //assy.Notes = yesAssy.Arr.GetValue().Notes;
+                    //noAssy.AddALT(assy);
+                    //allPins.Remove(yesAssy);
                 }
             }
         }
@@ -132,7 +160,7 @@ namespace Prog_V1
                     }
                 }
             }
-            return null;
+            return null; 
         }
 
         private static int CountCoords(string coords, List<Pin> allPins)

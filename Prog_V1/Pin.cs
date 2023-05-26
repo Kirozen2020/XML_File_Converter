@@ -55,6 +55,25 @@ namespace Prog_V1
                 p.SetNext(new Node<ALT>(x));
             }
         }
-
+        public void AddAlts(Node<ALT> x)
+        {
+            Node<ALT> p = x;
+            while (p != null)
+            {
+                AddALT(p.GetValue());
+                p = p.GetNext();
+            }
+        }
+        public int CountAlts()
+        {
+            int count = 0;
+            Node<ALT> p = this.Arr;
+            while(p != null)
+            {
+                count++;
+                p=p.GetNext();
+            }
+            return count;
+        }
     }
 }
