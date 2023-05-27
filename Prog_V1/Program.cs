@@ -15,23 +15,20 @@ namespace Prog_V1
     {
         static void Main(string[] args)
         {
-            //Console.WriteLine("Example for full path: C:\\Users\\user\\Downloads\\Text.txt");
-            //Console.Write("Enter full csv path: ");
-            string csvFullPath = "C:\\Users\\Lucky\\Downloads\\VAR-SOM-MX8M-PLUS.csv";
-                //Console.ReadLine(); /*"C:\\Users\\rozen\\OneDrive\\Рабочий стол\\Work\\VAR-SOM-MX8M-PLUS.csv";*/
+            Console.WriteLine("Example for full path: C:\\Users\\user\\Downloads\\Text.txt");
+            Console.Write("Enter full csv path: ");
+            string csvFullPath = Console.ReadLine(); /*"C:\\Users\\rozen\\OneDrive\\Рабочий стол\\Work\\VAR-SOM-MX8M-PLUS.csv";*/
             csvFullPath = csvFullPath.Replace("\\", "/");
 
-            //Console.Write("Enter full output path: ");
-            string outputName = "C:\\Users\\Lucky\\Downloads\\out.xml";
-                //Console.ReadLine(); /*"C:\\Users\\rozen\\Downloads\\out.xml";*/
+            Console.Write("Enter full output path: ");
+            string outputName = Console.ReadLine(); /*"C:\\Users\\rozen\\Downloads\\out.xml";*/
             outputName = outputName.Replace("\\", "/");
 
-            //Console.Write("Enter full xml path: ");
-            string xmlFullPath = "C:\\Users\\Lucky\\Downloads\\iMX8M-PLUS.xml";
-                //Console.ReadLine(); /*"C:\\Users\\rozen\\Downloads\\iMX8M-PLUS.xml";*/
+            Console.Write("Enter full xml path: ");
+            string xmlFullPath =  Console.ReadLine(); /*"C:\\Users\\rozen\\Downloads\\iMX8M-PLUS.xml";*/
             xmlFullPath = xmlFullPath.Replace("\\", "/");
 
-            Console.WriteLine(csvFullPath+"\n\n"+outputName+"\n\n"+xmlFullPath);
+            //Console.WriteLine(csvFullPath+"\n\n"+outputName+"\n\n"+xmlFullPath);
             List<Pin> allPins = new List<Pin>();
 
             List<Info> names = new List<Info>();
@@ -103,30 +100,25 @@ namespace Prog_V1
             {
                 if (CountCoords(allPins[i].Coords, allPins) > 1)
                 {
-                    Pin noAssy = GetPin(allPins, allPins[i].Coords, 0);
-                    Pin yesAssy = GetPin(allPins, allPins[i].Coords, 1);
+                    List<Pin> pins = GetSameCoordsPins(allPins, allPins[i].Coords);
 
-                    if (yesAssy.CountAlts() > 0)
+                    for (int k = 1; k < pins.Count; k++)
                     {
-                        Node<ALT> p = yesAssy.Arr;
-                        while (p != null)
+                        if (pins[k].CountAlts() > 0)
                         {
-                            ALT x = new ALT(p.GetValue().Name_part, p.GetValue().Package_function, p.GetValue().Signal, p.GetValue().Peripheral);
-                            x.Assy = p.GetValue().Assy;
-                            x.Notes = p.GetValue().Notes;
-                            noAssy.AddALT(x);
-                            p = p.GetNext();
+                            pins[0].AddAlts(pins[k].Arr);
                         }
-                        allPins.Remove(yesAssy);
+                        else
+                        {
+                            ALT x = new ALT(pins[k].Arr.GetValue().Name_part, "NoALT", pins[k].Arr.GetValue().Signal, pins[k].Arr.GetValue().Peripheral);
+                            x.Assy = pins[k].Arr.GetValue().Assy;
+                            x.Notes = pins[k].Arr.GetValue().Notes;
+                            pins[0].AddALT(x);
+                        }
                     }
-                    //Not writing NoALT 
-                    else
+                    for (int k = 1; k < pins.Count; k++)
                     {
-                        ALT assy = new ALT(yesAssy.Arr.GetValue().Name_part, "NoALT", yesAssy.Arr.GetValue().Signal, yesAssy.Arr.GetValue().Peripheral);
-                        assy.Assy = yesAssy.Arr.GetValue().Assy;
-                        assy.Notes = yesAssy.Arr.GetValue().Notes;
-                        noAssy.AddALT(assy);
-                        allPins.Remove(yesAssy);
+                        allPins.Remove(pins[k]);
                     }
 
                     //ALT assy = new ALT(yesAssy.Arr.GetValue().Name_part, "NoALT", yesAssy.Arr.GetValue().Signal, yesAssy.Arr.GetValue().Peripheral);
@@ -137,31 +129,19 @@ namespace Prog_V1
                 }
             }
         }
-
-        private static Pin GetPin(List<Pin> allPins, string coords, int v)
+        private static List<Pin> GetSameCoordsPins(List<Pin> allPins, string coords)
         {
-            if (v == 0)
+            List<Pin> result = new List<Pin>();
+            for (int i = 0; i < allPins.Count; i++)
             {
-                for (int i = 0; i < allPins.Count; i++)
+                if (allPins[i].Coords.Equals(coords))
                 {
-                    if (allPins[i].Coords == coords && allPins[i].Arr.GetValue().Assy.Contains("!"))
-                    {
-                        return allPins[i];
-                    }
+                    result.Add(allPins[i]);
                 }
             }
-            if (v == 1)
-            {
-                for (int i = 0; i < allPins.Count; i++)
-                {
-                    if (allPins[i].Coords == coords && !allPins[i].Arr.GetValue().Assy.Contains("!"))
-                    {
-                        return allPins[i];
-                    }
-                }
-            }
-            return null; 
+            return result;
         }
+        
 
         private static int CountCoords(string coords, List<Pin> allPins)
         {
