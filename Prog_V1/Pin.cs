@@ -29,7 +29,7 @@ namespace Prog_V1
             Node<ALT> p = this.Arr;
             while (p != null)
             {
-                if (p.Equals(x))
+                if (p.GetValue().Equals(x))
                 {
                     return true;
                 }
@@ -55,6 +55,7 @@ namespace Prog_V1
                 p.SetNext(new Node<ALT>(x));
             }
         }
+
         public void AddAlts(Node<ALT> x)
         {
             Node<ALT> p = x;
@@ -64,6 +65,7 @@ namespace Prog_V1
                 p = p.GetNext();
             }
         }
+
         public int CountAlts()
         {
             int count = 0;
@@ -74,6 +76,35 @@ namespace Prog_V1
                 p=p.GetNext();
             }
             return count;
+        }
+
+        public void DeletAlt(string name_part)
+        {
+            if (this.Arr == null)
+            {
+                //Console.WriteLine("null");
+                return;
+
+            }
+
+            if (this.Arr.GetValue().Name_part.Equals(name_part))
+            {
+                this.Arr = this.Arr.GetNext();
+                //Console.WriteLine("first");
+            }
+
+            Node<ALT> current = this.Arr, pre = null;
+            while (current != null && !current.GetValue().Name_part.Equals(name_part))
+            {
+                pre = current; ;
+                current = current.GetNext();
+            }
+            if (current == null)
+            {
+                //Console.WriteLine("not found");
+                return;
+            }
+            pre.SetNext(current.GetNext());
         }
     }
 }

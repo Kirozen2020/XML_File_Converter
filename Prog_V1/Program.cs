@@ -17,18 +17,17 @@ namespace Prog_V1
         {
             Console.WriteLine("Example for full path: C:\\Users\\user\\Downloads\\Text.txt");
             Console.Write("Enter full csv path: ");
-            string csvFullPath = Console.ReadLine(); /*"C:\\Users\\rozen\\OneDrive\\Рабочий стол\\Work\\VAR-SOM-MX8M-PLUS.csv";*/
+            string csvFullPath = "C:\\Users\\rozen\\OneDrive\\Рабочий стол\\Work\\VAR-SOM-MX8M-PLUS.csv";
             csvFullPath = csvFullPath.Replace("\\", "/");
 
             Console.Write("Enter full output path: ");
-            string outputName = Console.ReadLine(); /*"C:\\Users\\rozen\\Downloads\\out.xml";*/
+            string outputName = "C:\\Users\\rozen\\Downloads\\out.xml";
             outputName = outputName.Replace("\\", "/");
 
             Console.Write("Enter full xml path: ");
-            string xmlFullPath =  Console.ReadLine(); /*"C:\\Users\\rozen\\Downloads\\iMX8M-PLUS.xml";*/
+            string xmlFullPath =  "C:\\Users\\rozen\\Downloads\\iMX8M-PLUS.xml";
             xmlFullPath = xmlFullPath.Replace("\\", "/");
 
-            //Console.WriteLine(csvFullPath+"\n\n"+outputName+"\n\n"+xmlFullPath);
             List<Pin> allPins = new List<Pin>();
 
             List<Info> names = new List<Info>();
@@ -42,8 +41,6 @@ namespace Prog_V1
             AddMisingPins(allPins, names);
 
             AddPins(allPins);
-
-
 
             SortPinsById(allPins);
 
@@ -104,17 +101,34 @@ namespace Prog_V1
 
                     for (int k = 1; k < pins.Count; k++)
                     {
-                        if (pins[k].CountAlts() > 0)
+
+                        ALT x = new ALT(pins[k].Arr.GetValue().Name_part, "NoALT", pins[k].Arr.GetValue().Signal, pins[k].Arr.GetValue().Peripheral)
                         {
+                            Assy = pins[k].Arr.GetValue().Assy,
+                            Notes = pins[k].Arr.GetValue().Notes
+                        };
+                        pins[0].AddALT(x);
+
+                        if (pins[k].CountAlts() >= 1)
+                        {
+                            pins[0].DeletAlt(pins[k].Arr.GetValue().Name_part);
+
                             pins[0].AddAlts(pins[k].Arr);
                         }
-                        else
-                        {
-                            ALT x = new ALT(pins[k].Arr.GetValue().Name_part, "NoALT", pins[k].Arr.GetValue().Signal, pins[k].Arr.GetValue().Peripheral);
-                            x.Assy = pins[k].Arr.GetValue().Assy;
-                            x.Notes = pins[k].Arr.GetValue().Notes;
-                            pins[0].AddALT(x);
-                        }
+
+                        //if (pins[k].CountAlts() > 0)
+                        //{
+                        //    pins[0].AddAlts(pins[k].Arr);
+                        //}
+                        //else
+                        //{
+                        //    ALT x = new ALT(pins[k].Arr.GetValue().Name_part, "NoALT", pins[k].Arr.GetValue().Signal, pins[k].Arr.GetValue().Peripheral)
+                        //    {
+                        //        Assy = pins[k].Arr.GetValue().Assy,
+                        //        Notes = pins[k].Arr.GetValue().Notes
+                        //    };
+                        //    pins[0].AddALT(x);
+                        //}
                     }
                     for (int k = 1; k < pins.Count; k++)
                     {
@@ -129,6 +143,7 @@ namespace Prog_V1
                 }
             }
         }
+
         private static List<Pin> GetSameCoordsPins(List<Pin> allPins, string coords)
         {
             List<Pin> result = new List<Pin>();
@@ -142,7 +157,6 @@ namespace Prog_V1
             return result;
         }
         
-
         private static int CountCoords(string coords, List<Pin> allPins)
         {
             int count = 0;
@@ -205,7 +219,6 @@ namespace Prog_V1
                     p.GetValue().Notes = item.Note;
                 }
 
-                //Console.WriteLine($"assay-> {p.GetValue().Assy} | notes-> {p.GetValue().Notes}");
                 p = p.GetNext();
             }
         }
@@ -250,47 +263,6 @@ namespace Prog_V1
 
                     pin.Add(alt);
 
-                    //if (arr.GetValue().Package_function.Equals("NoALT"))
-                    //{
-                    //    alt = new XElement("connection",
-                    //        new XAttribute("name_part", arr.GetValue().Name_part),
-                    //        new XAttribute("package_function", arr.GetValue().Package_function),
-                    //        new XAttribute("assy", arr.GetValue().Assy),
-                    //        new XAttribute("notes", arr.GetValue().Notes),
-
-                    //        new XElement("peripheral_signal_ref",
-                    //            new XAttribute("signal", arr.GetValue().Signal),
-                    //            new XAttribute("peripheral", arr.GetValue().Peripheral))
-                    //        );
-
-                    //    pin.Add(alt);
-                    //}
-                    //else if (!arr.GetValue().Package_function.Equals("NoALT"))
-                    //{
-                    //    alt = new XElement("connection",
-                    //        new XAttribute("name_part", arr.GetValue().Name_part),
-                    //        new XAttribute("package_function", arr.GetValue().Package_function),
-                    //        new XAttribute("assy", arr.GetValue().Assy),
-                    //        new XAttribute("notes", arr.GetValue().Notes),
-
-                    //        new XElement("peripheral_signal_ref",
-                    //            new XAttribute("signal", arr.GetValue().Signal),
-                    //            new XAttribute("peripheral", arr.GetValue().Peripheral)),
-
-                    //        new XElement("peripheral_dts_ref",
-                    //            new XAttribute("group_name_postfix", arr.GetValue().Group_name_postfix1),
-                    //            new XAttribute("padname", arr.GetValue().Padname1),
-                    //            new XAttribute("value", arr.GetValue().Value1)),
-
-                    //        new XElement("peripheral_dts_ref",
-                    //            new XAttribute("group_name_postfix", "-sleep"/*arr.GetValue().Group_name_postfix2*/),
-                    //            new XAttribute("padname", arr.GetValue().Padname2),
-                    //            new XAttribute("value", arr.GetValue().Value2))
-                    //        );
-
-                    //    pin.Add(alt);
-                    //}
-
                     arr = arr.GetNext();
                 }
 
@@ -299,27 +271,27 @@ namespace Prog_V1
             xdoc.Save(outputPath);
 
         }
+        /*
+        public static void InitNames()//get all names of pins that we need in the output
+        {
+            var csvFileDescription = new CsvFileDescription
+            {
+                FirstLineHasColumnNames = true,
+                IgnoreUnknownColumns = true,
+                SeparatorChar = ',',
+                UseFieldIndexForReadingData = false,
 
-        //public static void InitNames()//get all names of pins that we need in the output
-        //{
-        //    var csvFileDescription = new CsvFileDescription
-        //    {
-        //        FirstLineHasColumnNames = true,
-        //        IgnoreUnknownColumns = true,
-        //        SeparatorChar = ',',
-        //        UseFieldIndexForReadingData = false,
+            };
 
-        //    };
+            var csvContext = new CsvContext();
+            var countries = csvContext.Read<Info>("VAR-SOM-MX8M-PLUS.csv", csvFileDescription);
 
-        //    var csvContext = new CsvContext();
-        //    var countries = csvContext.Read<Info>("VAR-SOM-MX8M-PLUS.csv", csvFileDescription);
-
-        //    foreach (var country in countries)
-        //    {
-        //        Console.WriteLine($"{country.Id} -> {country.Name}");
-        //    }
-        //}
-
+            foreach (var country in countries)
+            {
+                Console.WriteLine($"{country.Id} -> {country.Name}");
+            }
+        }
+        */
         public static List<Pin> InitPins(IEnumerable<Info> names, string xmlFullPath)//Get all pins from the big xml file
         {
             //list
@@ -330,8 +302,6 @@ namespace Prog_V1
 
             XElement categories = xdoc.Descendants().Where(x => x.Name.LocalName == "pins").FirstOrDefault();
 
-            //var pins = from c in xdoc.Elements("pinsmodelsignal_configuration").Elements("pins").Elements("pin")
-            //           select c;
 
             var pins = from c in categories.Elements("pin")
                        select c;
