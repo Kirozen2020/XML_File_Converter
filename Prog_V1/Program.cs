@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 
-
 /* https://www.youtube.com/watch?v=CfXZPQZpkVY */ /*read xml file*/
 /* https://www.youtube.com/watch?v=cqdJvIJlILg */ /*read csv file*/
 
@@ -17,15 +16,15 @@ namespace Prog_V1
         {
             Console.WriteLine("Example for full path: C:\\Users\\user\\Downloads\\Text.txt");
             Console.Write("Enter full csv path: ");
-            string csvFullPath = "C:\\Users\\rozen\\OneDrive\\Рабочий стол\\Work\\VAR-SOM-MX8M-PLUS.csv";
+            string csvFullPath = Console.ReadLine(); // "C:\\Users\\rozen\\OneDrive\\Рабочий стол\\Work\\VAR-SOM-MX8M-PLUS.csv";
             csvFullPath = csvFullPath.Replace("\\", "/");
 
             Console.Write("Enter full output path: ");
-            string outputName = "C:\\Users\\rozen\\Downloads\\norem.xml";
+            string outputName = Console.ReadLine(); // "C:\\Users\\rozen\\Downloads\\out.xml";
             outputName = outputName.Replace("\\", "/");
 
             Console.Write("Enter full xml path: ");
-            string xmlFullPath =  "C:\\Users\\rozen\\Downloads\\iMX8M-PLUS.xml";
+            string xmlFullPath = Console.ReadLine(); // "C:\\Users\\rozen\\Downloads\\iMX8M-PLUS.xml";
             xmlFullPath = xmlFullPath.Replace("\\", "/");
 
             List<Pin> allPins = new List<Pin>();
@@ -38,18 +37,46 @@ namespace Prog_V1
 
             UpdateInfo(allPins, names);
 
-            AddMisingPins(allPins, names);
+            AddByName(allPins, names);
 
-            AddPins(allPins, names);
+            MergeAltOfPins(allPins, names);
+
+            AddByCoords(allPins, names);
 
             SortPinsById(allPins);
 
             //creating the output xml file
-            CreateOutPut(allPins, outputName);
+            CreateOutput(allPins, outputName);
 
             Console.WriteLine("\n\nFile created successfully!");
             Console.WriteLine("Enter any key for closing this window");
             Console.ReadKey();
+        }
+
+        public static void AddByCoords(List<Pin> allPins, List<Info> names)
+        {
+            Pin p;
+            for (int i = 0; i < names.Count; i++)
+            {
+                if(!FindCooeds(allPins, names[i].Id))
+                {
+                    Info info = names[i]; 
+                    p = new Pin(info.Name, info.Name, info.Id, "none");
+                    allPins.Add(p);
+                }
+            }
+        }
+
+        public static bool FindCooeds(List<Pin> allPins, string id)
+        {
+            for (int i = 0; i < allPins.Count; i++)
+            {
+                if (allPins[i].Coords.Equals(id))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         public static void InitNames(List<Info> infos, string fullPath)
@@ -68,7 +95,7 @@ namespace Prog_V1
 
             }
         }
-        public static void AddMisingPins(List<Pin> allPins, IEnumerable<Info> infos)
+        public static void AddByName(List<Pin> allPins, IEnumerable<Info> infos)
         {
             Pin p;
             foreach (var info in infos)
@@ -80,6 +107,7 @@ namespace Prog_V1
                 }
             }
         }
+
         public static bool IsInList(List<Pin> pins, Info infos)
         {
             foreach (var pin in pins)
@@ -91,7 +119,8 @@ namespace Prog_V1
             }
             return false;
         }
-        private static void AddPins(List<Pin> allPins, IEnumerable<Info> names)
+
+        public static void MergeAltOfPins(List<Pin> allPins, IEnumerable<Info> names)
         {
             for (int i = 0; i < allPins.Count; i++)
             {
@@ -104,12 +133,10 @@ namespace Prog_V1
 
                         if (pins[k].CountAlts() > 0)
                         {
-                            //Console.WriteLine("YesAlt -> " + pins[k].Coords);
-                            pins[0].AddAlts(pins[k].Arr);//working
+                            pins[0].AddAlts(pins[k].Arr);
                         }
                         else
                         {
-                            //Console.WriteLine("NoAlt -> " + pins[k].Coords);
                             string[] word = pins[k].Name.Split('_');
                             string signal = string.Empty;
                             for (int w = 1; w < word.Length-1; w++)
@@ -132,17 +159,11 @@ namespace Prog_V1
                     {
                         allPins.Remove(pins[k]);
                     }
-
-                    //ALT assy = new ALT(yesAssy.Arr.GetValue().Name_part, "NoALT", yesAssy.Arr.GetValue().Signal, yesAssy.Arr.GetValue().Peripheral);
-                    //assy.Assy = yesAssy.Arr.GetValue().Assy;
-                    //assy.Notes = yesAssy.Arr.GetValue().Notes;
-                    //noAssy.AddALT(assy);
-                    //allPins.Remove(yesAssy);
                 }
             }
         }
 
-        private static Info FindInfo(string x, IEnumerable<Info> names)
+        public static Info FindInfo(string x, IEnumerable<Info> names)
         {
             foreach (var item in names)
             {
@@ -151,10 +172,10 @@ namespace Prog_V1
                     return item;
                 }
             }
-            return null;
+            return null;//error
         }
 
-        private static List<Pin> GetSameCoordsPins(List<Pin> allPins, string coords)
+        public static List<Pin> GetSameCoordsPins(List<Pin> allPins, string coords)
         {
             List<Pin> result = new List<Pin>();
             for (int i = 0; i < allPins.Count; i++)
@@ -167,7 +188,7 @@ namespace Prog_V1
             return result;
         }
         
-        private static int CountCoords(string coords, List<Pin> allPins)
+        public static int CountCoords(string coords, List<Pin> allPins)
         {
             int count = 0;
             for (int i = 0; i < allPins.Count; i++)
@@ -180,7 +201,7 @@ namespace Prog_V1
             return count;
         }
 
-        private static void SortPinsById(List<Pin> allPins)
+        public static void SortPinsById(List<Pin> allPins)
         {
             for (int i = 0; i < allPins.Count - 1; i++)
             {
@@ -197,7 +218,7 @@ namespace Prog_V1
             allPins.Reverse();
         }
 
-        private static void UpdateInfo(List<Pin> allPins, IEnumerable<Info> names)
+        public static void UpdateInfo(List<Pin> allPins, IEnumerable<Info> names)
         {
             foreach (var pin in allPins)
             {
@@ -212,7 +233,7 @@ namespace Prog_V1
             }
         }
 
-        private static void UpdateAlt(Node<ALT> arr, Info item)
+        public static void UpdateAlt(Node<ALT> arr, Info item)
         {
             Node<ALT> p = arr;
             while (p != null)
@@ -233,7 +254,7 @@ namespace Prog_V1
             }
         }
 
-        private static void CreateOutPut(List<Pin> usedPins, string outputPath)
+        public static void CreateOutput(List<Pin> usedPins, string outputPath)
         {
             XElement xdoc = new XElement("som");
             for (int i = 0; i < usedPins.Count; i++)
@@ -331,7 +352,6 @@ namespace Prog_V1
                     power_group = pin.Attribute("power_group").Value.ToString();
 
 
-
                     Pin p = new Pin(name, description, coords, power_group);
 
 
@@ -346,7 +366,6 @@ namespace Prog_V1
                         //string assy = connection.Attribute("assy").ToString();
                         //string notes = connection.Attribute("notes").ToString();
 
-
                         var peripheral_signal_refs = from p1 in connection.Elements("connection").Elements("peripheral_signal_ref")
                                                      select p1;
 
@@ -358,13 +377,11 @@ namespace Prog_V1
                         ALT a1 = new ALT(name_part, package_function, signal, peripheral);
                         p.AddALT(a1);
                     }
-
                     allpins.Add(p);
 
                     i++;
                 }
             }
-
             return allpins;
         }
 
@@ -379,6 +396,7 @@ namespace Prog_V1
             }
             return -1;
         }
+
         public static bool IsInChip(string name, List<Info> names)
         {
             for (int i = 0; i < names.Count; i++)
@@ -390,6 +408,7 @@ namespace Prog_V1
             }
             return false;
         }
+
         public static bool IsInChip(string name, IEnumerable<Info> names)
         {
             foreach (var n in names)
