@@ -21,7 +21,7 @@ namespace Prog_V1
             csvFullPath = csvFullPath.Replace("\\", "/");
 
             Console.Write("Enter full output path: ");
-            string outputName = "C:\\Users\\rozen\\Downloads\\out.xml";
+            string outputName = "C:\\Users\\rozen\\Downloads\\norem.xml";
             outputName = outputName.Replace("\\", "/");
 
             Console.Write("Enter full xml path: ");
@@ -40,7 +40,7 @@ namespace Prog_V1
 
             AddMisingPins(allPins, names);
 
-            AddPins(allPins);
+            AddPins(allPins, names);
 
             SortPinsById(allPins);
 
@@ -84,51 +84,49 @@ namespace Prog_V1
         {
             foreach (var pin in pins)
             {
-                if (pin.Coords.Equals(infos.Id))
+                if (pin.Name.Equals(infos.Name))
                 {
                     return true;
                 }
             }
             return false;
         }
-        private static void AddPins(List<Pin> allPins)
+        private static void AddPins(List<Pin> allPins, IEnumerable<Info> names)
         {
             for (int i = 0; i < allPins.Count; i++)
             {
                 if (CountCoords(allPins[i].Coords, allPins) > 1)
                 {
                     List<Pin> pins = GetSameCoordsPins(allPins, allPins[i].Coords);
-
+                    
                     for (int k = 1; k < pins.Count; k++)
                     {
 
-                        ALT x = new ALT(pins[k].Arr.GetValue().Name_part, "NoALT", pins[k].Arr.GetValue().Signal, pins[k].Arr.GetValue().Peripheral)
+                        if (pins[k].CountAlts() > 0)
                         {
-                            Assy = pins[k].Arr.GetValue().Assy,
-                            Notes = pins[k].Arr.GetValue().Notes
-                        };
-                        pins[0].AddALT(x);
-
-                        if (pins[k].CountAlts() >= 1)
-                        {
-                            pins[0].DeletAlt(pins[k].Arr.GetValue().Name_part);
-
-                            pins[0].AddAlts(pins[k].Arr);
+                            //Console.WriteLine("YesAlt -> " + pins[k].Coords);
+                            pins[0].AddAlts(pins[k].Arr);//working
                         }
+                        else
+                        {
+                            //Console.WriteLine("NoAlt -> " + pins[k].Coords);
+                            string[] word = pins[k].Name.Split('_');
+                            string signal = string.Empty;
+                            for (int w = 1; w < word.Length-1; w++)
+                            {
+                                signal = signal + word[w] + "_";
+                            }
+                            signal = signal + word[word.Length-1];
 
-                        //if (pins[k].CountAlts() > 0)
-                        //{
-                        //    pins[0].AddAlts(pins[k].Arr);
-                        //}
-                        //else
-                        //{
-                        //    ALT x = new ALT(pins[k].Arr.GetValue().Name_part, "NoALT", pins[k].Arr.GetValue().Signal, pins[k].Arr.GetValue().Peripheral)
-                        //    {
-                        //        Assy = pins[k].Arr.GetValue().Assy,
-                        //        Notes = pins[k].Arr.GetValue().Notes
-                        //    };
-                        //    pins[0].AddALT(x);
-                        //}
+                            Info inf = FindInfo(pins[k].Name,names);
+
+                            ALT x = new ALT(pins[k].Name, "NoALT", signal, word[0])
+                            {
+                                Assy = inf.Assy,
+                                Notes = inf.Note
+                            };
+                            pins[0].AddALT(x);
+                        }
                     }
                     for (int k = 1; k < pins.Count; k++)
                     {
@@ -142,6 +140,18 @@ namespace Prog_V1
                     //allPins.Remove(yesAssy);
                 }
             }
+        }
+
+        private static Info FindInfo(string x, IEnumerable<Info> names)
+        {
+            foreach (var item in names)
+            {
+                if(item.Name.Equals(x))
+                {
+                    return item;
+                }
+            }
+            return null;
         }
 
         private static List<Pin> GetSameCoordsPins(List<Pin> allPins, string coords)
