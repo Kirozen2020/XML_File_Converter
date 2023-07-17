@@ -12,6 +12,10 @@ namespace Prog_V1
 {
     internal class Program
     {
+        /// <summary>
+        /// Defines the entry point of the application.
+        /// </summary>
+        /// <param name="args">The arguments.</param>
         static void Main(string[] args)
         {
             Console.WriteLine("Example for full path: C:\\Users\\user\\Downloads\\Text.txt");
@@ -52,7 +56,11 @@ namespace Prog_V1
             Console.WriteLine("Enter any key for closing this window");
             Console.ReadKey();
         }
-
+        /// <summary>
+        /// Adds the by coords.
+        /// </summary>
+        /// <param name="allPins">All pins.</param>
+        /// <param name="names">The names.</param>
         public static void AddByCoords(List<Pin> allPins, List<Info> names)
         {
             Pin p;
@@ -66,7 +74,12 @@ namespace Prog_V1
                 }
             }
         }
-
+        /// <summary>
+        /// Finds the cooeds.
+        /// </summary>
+        /// <param name="allPins">All pins.</param>
+        /// <param name="id">The identifier.</param>
+        /// <returns></returns>
         public static bool FindCooeds(List<Pin> allPins, string id)
         {
             for (int i = 0; i < allPins.Count; i++)
@@ -78,7 +91,11 @@ namespace Prog_V1
             }
             return false;
         }
-
+        /// <summary>
+        /// Initializes the names.
+        /// </summary>
+        /// <param name="infos">The infos.</param>
+        /// <param name="fullPath">The full path.</param>
         public static void InitNames(List<Info> infos, string fullPath)
         {
             using (var reader = new StreamReader(fullPath))
@@ -95,6 +112,11 @@ namespace Prog_V1
 
             }
         }
+        /// <summary>
+        /// Adds the name of the by.
+        /// </summary>
+        /// <param name="allPins">All pins.</param>
+        /// <param name="infos">The infos.</param>
         public static void AddByName(List<Pin> allPins, IEnumerable<Info> infos)
         {
             Pin p;
@@ -107,7 +129,14 @@ namespace Prog_V1
                 }
             }
         }
-
+        /// <summary>
+        /// Determines whether [is in list] [the specified pins].
+        /// </summary>
+        /// <param name="pins">The pins.</param>
+        /// <param name="infos">The infos.</param>
+        /// <returns>
+        ///   <c>true</c> if [is in list] [the specified pins]; otherwise, <c>false</c>.
+        /// </returns>
         public static bool IsInList(List<Pin> pins, Info infos)
         {
             foreach (var pin in pins)
@@ -119,7 +148,11 @@ namespace Prog_V1
             }
             return false;
         }
-
+        /// <summary>
+        /// Merges the alt of pins.
+        /// </summary>
+        /// <param name="allPins">All pins.</param>
+        /// <param name="names">The names.</param>
         public static void MergeAltOfPins(List<Pin> allPins, IEnumerable<Info> names)
         {
             for (int i = 0; i < allPins.Count; i++)
@@ -162,7 +195,12 @@ namespace Prog_V1
                 }
             }
         }
-
+        /// <summary>
+        /// Finds the information.
+        /// </summary>
+        /// <param name="x">The x.</param>
+        /// <param name="names">The names.</param>
+        /// <returns></returns>
         public static Info FindInfo(string x, IEnumerable<Info> names)
         {
             foreach (var item in names)
@@ -174,7 +212,12 @@ namespace Prog_V1
             }
             return null;//error
         }
-
+        /// <summary>
+        /// Gets the same coords pins.
+        /// </summary>
+        /// <param name="allPins">All pins.</param>
+        /// <param name="coords">The coords.</param>
+        /// <returns></returns>
         public static List<Pin> GetSameCoordsPins(List<Pin> allPins, string coords)
         {
             List<Pin> result = new List<Pin>();
@@ -187,7 +230,12 @@ namespace Prog_V1
             }
             return result;
         }
-        
+        /// <summary>
+        /// Counts the coords.
+        /// </summary>
+        /// <param name="coords">The coords.</param>
+        /// <param name="allPins">All pins.</param>
+        /// <returns></returns>
         public static int CountCoords(string coords, List<Pin> allPins)
         {
             int count = 0;
@@ -200,7 +248,10 @@ namespace Prog_V1
             }
             return count;
         }
-
+        /// <summary>
+        /// Sorts the pins by identifier.
+        /// </summary>
+        /// <param name="allPins">All pins.</param>
         public static void SortPinsById(List<Pin> allPins)
         {
             for (int i = 0; i < allPins.Count - 1; i++)
@@ -217,7 +268,11 @@ namespace Prog_V1
             }
             allPins.Reverse();
         }
-
+        /// <summary>
+        /// Updates the information.
+        /// </summary>
+        /// <param name="allPins">All pins.</param>
+        /// <param name="names">The names.</param>
         public static void UpdateInfo(List<Pin> allPins, IEnumerable<Info> names)
         {
             foreach (var pin in allPins)
@@ -232,7 +287,11 @@ namespace Prog_V1
                 }
             }
         }
-
+        /// <summary>
+        /// Updates the alt.
+        /// </summary>
+        /// <param name="arr">The arr.</param>
+        /// <param name="item">The item.</param>
         public static void UpdateAlt(Node<ALT> arr, Info item)
         {
             Node<ALT> p = arr;
@@ -253,7 +312,11 @@ namespace Prog_V1
                 p = p.GetNext();
             }
         }
-
+        /// <summary>
+        /// Creates the output.
+        /// </summary>
+        /// <param name="usedPins">The used pins.</param>
+        /// <param name="outputPath">The output path.</param>
         public static void CreateOutput(List<Pin> usedPins, string outputPath)
         {
             XElement xdoc = new XElement("som");
@@ -302,27 +365,12 @@ namespace Prog_V1
             xdoc.Save(outputPath);
 
         }
-        /*
-        public static void InitNames()//get all names of pins that we need in the output
-        {
-            var csvFileDescription = new CsvFileDescription
-            {
-                FirstLineHasColumnNames = true,
-                IgnoreUnknownColumns = true,
-                SeparatorChar = ',',
-                UseFieldIndexForReadingData = false,
-
-            };
-
-            var csvContext = new CsvContext();
-            var countries = csvContext.Read<Info>("VAR-SOM-MX8M-PLUS.csv", csvFileDescription);
-
-            foreach (var country in countries)
-            {
-                Console.WriteLine($"{country.Id} -> {country.Name}");
-            }
-        }
-        */
+        /// <summary>
+        /// Initializes the pins.
+        /// </summary>
+        /// <param name="names">The names.</param>
+        /// <param name="xmlFullPath">The XML full path.</param>
+        /// <returns></returns>
         public static List<Pin> InitPins(IEnumerable<Info> names, string xmlFullPath)//Get all pins from the big xml file
         {
             //list
@@ -384,7 +432,12 @@ namespace Prog_V1
             }
             return allpins;
         }
-
+        /// <summary>
+        /// Determines whether [is in chip] [the specified x].
+        /// </summary>
+        /// <param name="x">The x.</param>
+        /// <param name="names">The names.</param>
+        /// <returns></returns>
         public static int IsInChip(Pin x, List<Info> names)
         {
             for (int i = 0; i < names.Count; i++)
@@ -396,7 +449,14 @@ namespace Prog_V1
             }
             return -1;
         }
-
+        /// <summary>
+        /// Determines whether [is in chip] [the specified name].
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="names">The names.</param>
+        /// <returns>
+        ///   <c>true</c> if [is in chip] [the specified name]; otherwise, <c>false</c>.
+        /// </returns>
         public static bool IsInChip(string name, List<Info> names)
         {
             for (int i = 0; i < names.Count; i++)
@@ -408,7 +468,14 @@ namespace Prog_V1
             }
             return false;
         }
-
+        /// <summary>
+        /// Determines whether [is in chip] [the specified name].
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="names">The names.</param>
+        /// <returns>
+        ///   <c>true</c> if [is in chip] [the specified name]; otherwise, <c>false</c>.
+        /// </returns>
         public static bool IsInChip(string name, IEnumerable<Info> names)
         {
             foreach (var n in names)

@@ -8,13 +8,50 @@ namespace Prog_V1
 {
     internal class Pin
     {
+        /// <summary>
+        /// Gets or sets the name.
+        /// </summary>
+        /// <value>
+        /// The name.
+        /// </value>
         public string Name { get; set; }
+        /// <summary>
+        /// Gets or sets the description.
+        /// </summary>
+        /// <value>
+        /// The description.
+        /// </value>
         public string Description { get; set; }
+        /// <summary>
+        /// Gets or sets the coords.
+        /// </summary>
+        /// <value>
+        /// The coords.
+        /// </value>
         public string Coords { get; set; }
+        /// <summary>
+        /// Gets or sets the power group.
+        /// </summary>
+        /// <value>
+        /// The power group.
+        /// </value>
         public string Power_group { get; set; }
 
+        /// <summary>
+        /// Gets or sets the arr.
+        /// </summary>
+        /// <value>
+        /// The arr.
+        /// </value>
         public Node<ALT> Arr { get; set; }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Pin"/> class.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="description">The description.</param>
+        /// <param name="coords">The coords.</param>
+        /// <param name="power_group">The power group.</param>
         public Pin(string name, string description, string coords, string power_group)
         {
             this.Name = name;
@@ -23,7 +60,13 @@ namespace Prog_V1
             this.Power_group = power_group;
             this.Arr = null;
         }
-
+        /// <summary>
+        /// Determines whether [is in arr] [the specified x].
+        /// </summary>
+        /// <param name="x">The x.</param>
+        /// <returns>
+        ///   <c>true</c> if [is in arr] [the specified x]; otherwise, <c>false</c>.
+        /// </returns>
         public bool IsInArr(ALT x)
         {
             Node<ALT> p = this.Arr;
@@ -37,7 +80,10 @@ namespace Prog_V1
             }
             return false;
         }
-
+        /// <summary>
+        /// Adds the alt.
+        /// </summary>
+        /// <param name="x">The x.</param>
         public void AddALT(ALT x)
         {
             if (this.Arr == null)
@@ -55,7 +101,10 @@ namespace Prog_V1
                 p.SetNext(new Node<ALT>(x));
             }
         }
-
+        /// <summary>
+        /// Adds the alts.
+        /// </summary>
+        /// <param name="x">The x.</param>
         public void AddAlts(Node<ALT> x)
         {
             Node<ALT> p = x;
@@ -65,7 +114,10 @@ namespace Prog_V1
                 p = p.GetNext();
             }
         }
-
+        /// <summary>
+        /// Counts the alts.
+        /// </summary>
+        /// <returns></returns>
         public int CountAlts()
         {
             int count = 0;
@@ -77,7 +129,10 @@ namespace Prog_V1
             }
             return count;
         }
-
+        /// <summary>
+        /// Delets the alt.
+        /// </summary>
+        /// <param name="name_part">The name part.</param>
         public void DeletAlt(string name_part)
         {
             if (this.Arr == null)
